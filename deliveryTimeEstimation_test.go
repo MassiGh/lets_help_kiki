@@ -9,7 +9,7 @@ import (
 func TestCalculateDeliveryTime(t *testing.T) {
 	firstLineInput := FirstLineInput{
 		BaseCost:         100,
-		NumberOfPackages: 3,
+		NumberOfPackages: 5,
 	}
 
 	extraDetails := [][]string{{"2", "70", "200"}}
@@ -31,28 +31,28 @@ func TestCalculateDeliveryTime(t *testing.T) {
 				OfferIds: []string{"OFR001"},
 			},
 			{
-				Index:    0,
+				Index:    1,
 				Title:    "PKG2",
 				Weight:   75,
 				Distance: 125,
 				OfferIds: []string{"OFR008"},
 			},
 			{
-				Index:    0,
+				Index:    2,
 				Title:    "PKG3",
 				Weight:   175,
 				Distance: 100,
 				OfferIds: []string{"OFR003"},
 			},
 			{
-				Index:    0,
+				Index:    3,
 				Title:    "PKG4",
 				Weight:   110,
 				Distance: 60,
 				OfferIds: []string{"OFR002"},
 			},
 			{
-				Index:    0,
+				Index:    4,
 				Title:    "PKG5",
 				Weight:   155,
 				Distance: 95,
