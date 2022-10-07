@@ -44,11 +44,12 @@ func main() {
 	outputs, err := problem.Solver(firstLineInput, packageDetails, extraDetails)
 	if err != nil {
 		fmt.Println(err)
-	}
-	// Write the outputs in console
-	fmt.Println("<----------- Output ----------->")
-	for _, output := range outputs {
-		fmt.Println(output)
+	} else {
+		// Write the outputs in console
+		fmt.Println("<----------- Output ----------->")
+		for _, output := range outputs {
+			fmt.Println(output)
+		}
 	}
 }
 
@@ -59,11 +60,11 @@ func pickProblem(reader *bufio.Reader, problems []Problem) Problem {
 	problem, err := getSelectedProblem(reader, problems)
 	if err != nil {
 		fmt.Println(err)
-		pickProblem(reader, problems)
+		return pickProblem(reader, problems)
+	} else {
+		printData := fmt.Sprintf("<----------- Selected problem: %s ----------->", problem.Title)
+		fmt.Println(printData)
 	}
-
-	printData := fmt.Sprintf("<----------- Selected problem: %s ----------->", problem.Title)
-	fmt.Println(printData)
 	return problem
 }
 
@@ -96,7 +97,7 @@ func readProblemInputs(reader *bufio.Reader, problem Problem) (FirstLineInput, [
 	fmt.Println("<----------- Please enter base cost and number of packages ----------->")
 	firstLineInput := getFirstLineInput(reader)
 
-	printData := fmt.Sprintf("<----------- Please enter %d package details and extra inputs ----------->", firstLineInput.NumberOfPackages)
+	printData := fmt.Sprintf("<----------- Please enter %d package details ----------->", firstLineInput.NumberOfPackages)
 	fmt.Println(printData)
 	packageDetails := []PackageDetail{}
 	for len(packageDetails) < firstLineInput.NumberOfPackages {
@@ -106,6 +107,7 @@ func readProblemInputs(reader *bufio.Reader, problem Problem) (FirstLineInput, [
 
 	extraDetails := [][]string{}
 	if problem.ExtraLines > 0 {
+		fmt.Println("<----------- Please enter shipment detail ----------->")
 		for len(extraDetails) < problem.ExtraLines {
 			inputTokens := strings.Split(strings.TrimSpace(readLine(reader)), " ")
 			extraDetails = append(extraDetails, inputTokens)
@@ -121,7 +123,7 @@ func getFirstLineInput(reader *bufio.Reader) FirstLineInput {
 	firstLineInput, err := parseFirstLineInput(inputTokens)
 	if err != nil {
 		fmt.Println(err)
-		getFirstLineInput(reader)
+		return getFirstLineInput(reader)
 	}
 	return firstLineInput
 }
@@ -153,11 +155,14 @@ func parseFirstLineInput(inputTokens []string) (FirstLineInput, error) {
 
 // Function to read package details from stdin
 func getPackageDetail(reader *bufio.Reader, index int) PackageDetail {
+	printData := fmt.Sprintf("Package %d:", index+1)
+	fmt.Println(printData)
+
 	inputTokens := strings.Split(strings.TrimSpace(readLine(reader)), " ")
 	packageDetail, err := parsePackageDetail(inputTokens, index)
 	if err != nil {
 		fmt.Println(err)
-		getPackageDetail(reader, index)
+		return getPackageDetail(reader, index)
 	}
 	return packageDetail
 }
